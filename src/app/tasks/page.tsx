@@ -32,69 +32,68 @@ const taskColumns: ITable[] = [
     }
 ];
 
-const taskFields: IFields[] = [
-    {
-        label: "Nome",
-        name: "name",
-        type: "text",
-        required: true
-    },
-    {
-        label: "Descrição",
-        name: "description",
-        type: "textarea",
-        required: true
-    },
-    {
-        label: "Status",
-        name: "status",
-        type: "select",
-        required: true,
-        options: [
-            {
-                label: "A fazer",
-                value: "todo"
-            },
-            {
-                label: "Em andamento",
-                value: "in_progress"
-            },
-            {
-                label: "Concluído",
-                value: "done"
-            }
-        ],
-    },
-    {
-        label: "Data de Entrega",
-        name: "due_date",
-        type: "date",
-        required: true
-    },
-    {
-        label: "Data de Conclusão",
-        name: "completed_at",
-        type: "date",
-        required: false
-    },
-    {
-        label: "Tags",
-        name: "tags",
-        type: "select",
-        required: false,
-        multiple: true,
-    }
-];
-
 const Tasks = async () => {
     const tasks = await getAllTasks();
     const tags = await getAllTags();
-    taskFields[5].options = tags.map((tag) => {
-        return {
-            label: tag.name,
-            value: tag.id?.toString()
-        }
-    });
+    const taskFields: IFields[] = [
+        {
+            label: "Nome",
+            name: "name",
+            type: "text",
+            required: true
+        },
+        {
+            label: "Descrição",
+            name: "description",
+            type: "textarea",
+            required: true
+        },
+        {
+            label: "Status",
+            name: "status",
+            type: "select",
+            required: true,
+            options: [
+                {
+                    label: "A fazer",
+                    value: "todo"
+                },
+                {
+                    label: "Em andamento",
+                    value: "in_progress"
+                },
+                {
+                    label: "Concluído",
+                    value: "done"
+                }
+            ]
+        },
+        {
+            label: "Tags",
+            name: "tags",
+            type: "select",
+            required: false,
+            multiple: true,
+            options: tags.map((tag) => {
+                return {
+                    label: tag.name,
+                    value: tag.id?.toString()
+                }
+            })
+        },
+        {
+            label: "Data de Entrega",
+            name: "due_date",
+            type: "date",
+            required: true
+        },
+        {
+            label: "Data de Conclusão",
+            name: "completed_at",
+            type: "date",
+            required: false
+        },
+    ];
     return (
         <div className="mx-auto">
             <div className="overflow-x-auto">
@@ -108,7 +107,7 @@ const Tasks = async () => {
                     }}/>
                 </div>
                 <div className="p-10">
-                    <List itens={tasks} columns={taskColumns}/>
+                    <List itens={tasks} columns={taskColumns} type="task"/>
                 </div>
             </div>
         </div>

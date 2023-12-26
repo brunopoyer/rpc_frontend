@@ -2,12 +2,20 @@
 
 import {FaPlusSquare} from "react-icons/fa";
 import Modal from "@/components/Modal";
-import {FormEventHandler, Key, useState} from "react";
+import {FormEventHandler, JSXElementConstructor,
+    Key,
+    PromiseLikeOfReactNode,
+    ReactElement,
+    ReactNode,
+    ReactPortal,
+    useState
+} from "react";
 import {IFields} from "../../types/fields";
 import {createTag, createTask, updateTag, updateTask} from "../../api";
 import {Tag} from "../../types/tags";
 import {useRouter} from "next/navigation";
 import {Task} from "../../types/tasks";
+import Select from "react-select";
 
 interface AddItemProps {
     fields: IFields[];
@@ -20,6 +28,7 @@ interface AddItemProps {
 
 const AddItem: React.FC<AddItemProps> = ({title, fields, method}) => {
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [selectedOptions, setSelectedOptions] = useState<Array<{label: string, value: string}>>();
     const sendData = async (data: any) => {
         switch (method.type) {
             case "tag":
@@ -32,14 +41,9 @@ const AddItem: React.FC<AddItemProps> = ({title, fields, method}) => {
                 }
                 break;
             case "task":
-                const tags: Array<{id: number}> = [];
-                fields.forEach((field) => {
-                    if (field.name === "tags") {
-                        field.value.forEach((tag: number) => {
-                            tags.push({id: tag});
-                        });
-                        field.value = [];
-                    }
+                const tags: Array<{ id: number }> = [];
+                selectedOptions?.forEach((option) => {
+                    tags.push({id: parseInt(option.value)});
                 });
                 const task = new Task(data.name, data.description, data.due_date, tags, data.completed_at, data.id, data.status);
                 if (method.operation === "create") {
@@ -63,8 +67,8 @@ const AddItem: React.FC<AddItemProps> = ({title, fields, method}) => {
         });
     }
 
-    const handleChange = (e: any, field: IFields ) => {
-        field.value = [...e.target.options].filter(({selected}) => selected).map(({value}) => value);
+    const handleSelect = (selectedOptions: any) => {
+        setSelectedOptions(selectedOptions);
     }
 
     const fieldTypes = (field: IFields) => {
@@ -79,19 +83,24 @@ const AddItem: React.FC<AddItemProps> = ({title, fields, method}) => {
                 );
             case "select":
                 return (
-                    <select name={field.name} className="select select-bordered w-full" required={field.required}
-                            multiple={field.multiple}
-                            onChange={(e) => handleChange(e, field)}
-                            value={field.value}
-                    >
-                        <option value="" disabled>{field.label}</option>
-                        {field.options?.map((option: {
-                            value: string | undefined;
-                            label: string;
-                        }, index: Key | null | undefined) => (
-                            <option key={index} value={option.value}>{option.label}</option>
-                        ))}
-                    </select>
+                    (field.multiple) ?
+                        <Select options={field.options} isMulti required={field.required}
+                                instanceId={field.name}
+                                closeMenuOnSelect={false}
+                                value={selectedOptions}
+                                onChange={handleSelect}
+                        />
+                        :
+                        <select name={field.name} className="select select-bordered w-full" required={field.required}>
+                            <option value="">Selecione uma opção</option>
+                            {field.options.map((option: {
+                                value: string | undefined;
+                                label: string | undefined;
+                            }, index: Key | null | undefined) => (
+                                <option key={index} value={option.value}>{option.label}</option>
+                            ))}
+                        </select>
+
                 );
             case "textarea":
                 return (

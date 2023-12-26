@@ -6,6 +6,7 @@ import {ITable} from "../../types/table";
 interface ListProps {
   itens: ITag[] | ITask[];
   columns: ITable[];
+  type: "tag" | "task";
 }
 
 const taskColumns = ["name", "description", "status", "due_date", "completed_at", "tags"];
@@ -14,7 +15,7 @@ function isTag(item: ITag | ITask): item is ITag {
     return (item as ITag).color !== undefined;
 }
 
-const List: React.FC<ListProps> = ({ itens, columns }) => {
+const List: React.FC<ListProps> = ({ itens, columns, type }) => {
     return (
         <div>
             <table className="table table-zebra">
@@ -30,7 +31,7 @@ const List: React.FC<ListProps> = ({ itens, columns }) => {
                 </thead>
                 <tbody>
                     {itens.map((item, index) => (
-                        <Item key={item.id} item={item} columns={columns} />
+                        <Item key={item.id} item={item} columns={columns} type={type} />
                     ))}
                 </tbody>
             </table>

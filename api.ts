@@ -48,6 +48,7 @@ export const updateTag = async (tag: ITag): Promise<ITag> => {
 };
 
 export const deleteTag = async (id: number): Promise<ITag> => {
+    console.log(id);
     const response = await fetch(`${baseUrl}/tags/${id}`, {
         method: 'DELETE'
     });
@@ -77,7 +78,6 @@ export const getTask = async (id: number): Promise<ITask> => {
 };
 
 export const createTask = async (task: ITask): Promise<ITask> => {
-    console.log(JSON.stringify(task));
     const response = await fetch(`${baseUrl}/tasks`, {
         method: 'POST',
         headers: {

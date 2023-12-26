@@ -45,7 +45,7 @@ const Tags = async () => {
                         type: "tag"
                     }}/>
                 </div>
-                <List itens={tags} columns={tagColumns} />
+                <List itens={tags} columns={tagColumns} type="tag"/>
             </div>
         </div>
     );
