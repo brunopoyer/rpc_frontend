@@ -1,22 +1,14 @@
 import Image from "next/image";
-
 export const Navbar = () => {
-    
+
     const menus = [
-        {
-            name: 'Dashboard',
-            href: '/',
-            current: true
-        },
         {
             name: 'Tarefas',
             href: '/tasks',
-            current: false
         },
         {
             name: 'Tags',
             href: '/tags',
-            current: false
         }
     ]
 
@@ -37,9 +29,7 @@ export const Navbar = () => {
                                     <a
                                         key={menu.name}
                                         href={menu.href}
-                                        className={`${
-                                            menu.current ? 'bg-gray-900 text-white' : 'text-gray-900 hover:bg-gray-700 hover:text-white'
-                                        } px-3 py-2 rounded-md text-sm font-medium`}
+                                        className="text-gray-900 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >{menu.name}</a>
                                 ))}
                             </div>
