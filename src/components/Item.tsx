@@ -7,18 +7,16 @@ import {ITable} from "../../types/table";
 import Modal from "@/components/Modal";
 import {deleteTag, deleteTask, getTag, getTask} from "../../api";
 import {useRouter} from "next/navigation";
-import AddItem from "@/components/AddItem";
-import {tagFields} from "@/shared/fields";
 import Form from "@/components/Form";
-import {it} from "node:test";
 
 interface ItemProps {
     item: any;
     columns: ITable[];
     type: "tag" | "task";
+    onItemChange: () => void;
 }
 
-const Item: React.FC<ItemProps> = ({ item, columns, type }) => {
+const Item: React.FC<ItemProps> = ({ item, columns, type, onItemChange }) => {
 
     const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
     const [showEditModal, setShowEditModal] = React.useState<boolean>(false);
@@ -27,12 +25,13 @@ const Item: React.FC<ItemProps> = ({ item, columns, type }) => {
     const handleDelete = async () => {
         if (type === "tag") {
             await deleteTag(item.id);
-            route.refresh();
         }
         if (type === "task") {
             await deleteTask(item.id);
-            route.refresh();
         }
+        route.refresh();
+        onItemChange();
+        setShowDeleteModal(false);
     }
 
     const handleEdit = async (id: string) => {
@@ -48,9 +47,20 @@ const Item: React.FC<ItemProps> = ({ item, columns, type }) => {
             case "in_progress":
                 return <span className="badge badge-warning badge-outline">Andamento</span>
             case "done":
-                return <span className="badge badge-success badge-outline">Feito</span>
+                return <span className="badge badge-success badge-outline">Concluído</span>
             default:
                 return <span className="badge badge-primary badge-outline">A fazer</span>
+        }
+    }
+
+    const getContent = (item: any, column: ITable) => {
+        switch (column.key) {
+            case "status":
+                return getBadge(item.status);
+            case "color":
+                return <span className="badge badge-md" style={{backgroundColor: item.color}}></span>
+            default:
+                return item[column.key]
         }
     }
 
@@ -60,7 +70,7 @@ const Item: React.FC<ItemProps> = ({ item, columns, type }) => {
             {columns.map((column, index) => (
                 (column.type === "object" && item[column.key].length > 0) ?
                     <td key={index}
-                        className={index === columns.length -1 ? 'w-full' : 'w-1/2'}
+                        className={index === columns.length -1 ? 'w-full' : 'w-1/3'}
                     >
                         <div className="flex gap-2">
                         {item[column.key].map((tag: any) => (
@@ -72,13 +82,9 @@ const Item: React.FC<ItemProps> = ({ item, columns, type }) => {
                     </td>
                 :
                 <td key={index}
-                    className={index === columns.length -1 ? 'w-full' : 'w-1/2'}
+                    className={index === columns.length -1 ? 'w-full' : 'w-1/3'}
                 >
-                    {column.key === "status" ?
-                        getBadge(item[column.key])
-                    :
-                     item[column.key]
-                    }
+                    {getContent(item, column)}
                 </td>
             ))}
             <td className="flex gap-5">
@@ -88,6 +94,7 @@ const Item: React.FC<ItemProps> = ({ item, columns, type }) => {
                         operation: "update",
                         type: type
                     }} setShowModal={setShowEditModal}
+                      onItemChange={onItemChange}
                     item={editItem}/>
                 </Modal>
                 <MdOutlineDeleteForever cursor="pointer" className="text-red-600" size={25} onClick={() => setShowDeleteModal(true)}/>

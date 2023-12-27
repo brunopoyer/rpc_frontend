@@ -16,7 +16,7 @@ export const getTag = async (id: number): Promise<ITag> => {
     const response = await fetch(`${baseUrl}/tags/${id}`);
     return await response.json().then(
         (data) => {
-            return data.data;
+            return data?.data;
         }
     );
 };
@@ -42,19 +42,18 @@ export const updateTag = async (tag: ITag): Promise<ITag> => {
     });
     return await response.json().then(
         (data) => {
-            return data.data;
+            return data?.data;
         }
     );
 };
 
 export const deleteTag = async (id: number): Promise<ITag> => {
-    console.log(id);
     const response = await fetch(`${baseUrl}/tags/${id}`, {
         method: 'DELETE'
     });
     return await response.json().then(
         (data) => {
-            return data.data;
+            return data?.data;
         }
     );
 }
@@ -72,7 +71,7 @@ export const getTask = async (id: number): Promise<ITask> => {
     const response = await fetch(`${baseUrl}/tasks/${id}`);
     return await response.json().then(
         (data) => {
-            return data.data;
+            return data?.data;
         }
     );
 };
@@ -87,7 +86,7 @@ export const createTask = async (task: ITask): Promise<ITask> => {
     });
     return await response.json().then(
         (data) => {
-            return data.data;
+            return data?.data;
         }
     );
 };
@@ -102,7 +101,7 @@ export const updateTask = async (task: ITask): Promise<ITask> => {
     });
     return await response.json().then(
         (data) => {
-            return data.data;
+            return data?.data;
         }
     );
 };
@@ -113,7 +112,7 @@ export const deleteTask = async (id: number): Promise<ITask> => {
     });
     return await response.json().then(
         (data) => {
-            return data.data;
+            return data?.data;
         }
     );
 }

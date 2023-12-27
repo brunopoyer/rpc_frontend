@@ -15,8 +15,9 @@ interface FormProps {
     };
     setShowModal: (show: boolean) => void;
     item?: any;
+    onItemChange: () => void;
 }
-const Form: React.FC<FormProps> = ({method, setShowModal, item}) => {
+const Form: React.FC<FormProps> = ({method, setShowModal, item, onItemChange}) => {
     const [selectedOptions, setSelectedOptions] = useState<Array<{label: string, value: string}>>();
     const [formData, setFormData] = useState<any>({});
     const fields = method.type === "tag" ? tagFields : taskFields;
@@ -59,10 +60,7 @@ const Form: React.FC<FormProps> = ({method, setShowModal, item}) => {
                         setSelectedOptions(tags);
                         return;
                     }
-                    // lower case the item[field.name] and remove spaces
-                    const value = item[field.name].toLowerCase().replace(/\s/g, '');
-                    // set the initialFormData[field.name] to the value
-                    initialFormData[field.name] = value;
+                    initialFormData[field.name] = item[field.name].toLowerCase().replace(/\s/g, '');
                     return;
                 }
                 initialFormData[field.name] = item[field.name] || '';
@@ -106,6 +104,7 @@ const Form: React.FC<FormProps> = ({method, setShowModal, item}) => {
         e.currentTarget.reset();
         await sendData(data).then(() => {
             setShowModal(false);
+            onItemChange();
             router.refresh();
         });
     }
@@ -131,6 +130,7 @@ const Form: React.FC<FormProps> = ({method, setShowModal, item}) => {
                            name={field.name} id={field.name}
                            value={formData[field.name] || ""}
                            onChange={handleInputChange}
+                           maxLength={255}
                            required={field.required}/>
                 );
             case "select":

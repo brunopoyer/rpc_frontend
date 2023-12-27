@@ -20,9 +20,10 @@ interface AddItemProps {
         operation: "create" | "update",
         type: "tag" | "task"
     };
+    onItemChange: () => void;
 }
 
-const AddItem: React.FC<AddItemProps> = ({title, fields, method}) => {
+const AddItem: React.FC<AddItemProps> = ({title, fields, method, onItemChange}) => {
     const [showModal, setShowModal] = useState<boolean>(false);
 
     return (
@@ -38,7 +39,7 @@ const AddItem: React.FC<AddItemProps> = ({title, fields, method}) => {
                 </button>
             }
             <Modal show={showModal} setShow={() => setShowModal(false)} title={title}>
-                <Form method={method} setShowModal={setShowModal}/>
+                <Form method={method} setShowModal={setShowModal} onItemChange={onItemChange}/>
             </Modal>
         </div>
     );

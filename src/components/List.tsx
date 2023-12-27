@@ -7,6 +7,7 @@ interface ListProps {
   itens: ITag[] | ITask[];
   columns: ITable[];
   type: "tag" | "task";
+  onItemChange: () => void;
 }
 
 const taskColumns = ["name", "description", "status", "due_date", "completed_at", "tags"];
@@ -15,7 +16,7 @@ function isTag(item: ITag | ITask): item is ITag {
     return (item as ITag).color !== undefined;
 }
 
-const List: React.FC<ListProps> = ({ itens, columns, type }) => {
+const List: React.FC<ListProps> = ({ itens, columns, type, onItemChange }) => {
     const sortItens = itens.sort((a, b) => {
         if (isTag(a)) {
             return a.name.localeCompare(b.name);
@@ -37,7 +38,7 @@ const List: React.FC<ListProps> = ({ itens, columns, type }) => {
                 </thead>
                 <tbody>
                     {sortItens.map((item, index) => (
-                        <Item key={item.id} item={item} columns={columns} type={type} />
+                        <Item key={item.id} item={item} columns={columns} type={type} onItemChange={onItemChange} />
                     ))}
                 </tbody>
             </table>
