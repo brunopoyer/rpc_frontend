@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Frontend do Sistema de Gerenciamento de Tarefas
 
-## Getting Started
+Este é o frontend do sistema de gerenciamento de tarefas desenvolvido em React 18 e Next.js 14. Utilizamos as bibliotecas react-icons, react-select, e daisyui para componentes Tailwind. Este frontend interage com o backend para criar, editar, listar e excluir tarefas, além de associar tags às tarefas.
 
-First, run the development server:
+## Pré-requisitos
+
+- [Node.js](https://nodejs.org/) (versão 14 ou superior)
+- [Yarn](https://yarnpkg.com/) (opcional, mas recomendado para gerenciamento de dependências)
+
+## Configuração do Ambiente
+
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/seu-projeto-frontend.git
+cd seu-projeto-frontend
+
+# Instale as dependências
+yarn install
+# or
+npm install
+
+## Executando o Projeto
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Funcionalidades
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Tarefas
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Listar Tarefas:**
+  - *Descrição:* Retorna uma lista de todas as tarefas.
 
-## Learn More
+- **Criar Tarefa:**
+  - *Descrição:* Cria uma nova tarefa.
+  - *Campos:*
+    - Título (string): Título da tarefa.
+    - Descrição (string): Descrição da tarefa.
+    - Prazo de Execução (date): Prazo para conclusão da tarefa (formato: YYYY-MM-DD).
+    - Status (string): Status da tarefa (por fazer, em progresso, concluída).
 
-To learn more about Next.js, take a look at the following resources:
+- **Editar Tarefa:**
+  - *Descrição:* Edita uma tarefa existente.
+  - *Campos:*
+    - Título (string): Novo título da tarefa.
+    - Descrição (string): Nova descrição da tarefa.
+    - Prazo de Execução (date): Novo prazo para conclusão da tarefa (formato: YYYY-MM-DD).
+    - Status (string): Novo status da tarefa.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Excluir Tarefa:**
+  - *Descrição:* Exclui uma tarefa.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Tags
 
-## Deploy on Vercel
+- **Listar Tags:**
+  - *Descrição:* Retorna uma lista de todas as tags.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Criar Tag:**
+  - *Descrição:* Cria uma nova tag.
+  - *Campos:*
+    - Nome (string): Nome da tag.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Editar Tag:**
+  - *Descrição:* Edita uma tag existente.
+  - *Campos:*
+    - Nome (string): Novo nome da tag.
+
+- **Excluir Tag:**
+  - *Descrição:* Exclui uma tag.
+
+## Bibliotecas Utilizadas
+
+- [React Icons](https://react-icons.github.io/react-icons/): Ícones para a interface.
+- [React Select](https://react-select.com/): Componente de seleção avançada.
+- [DaisyUI (Tailwind CSS)](https://daisyui.com/): Componentes para o framework Tailwind CSS.
+
+## Contribuindo
+
+Sinta-se à vontade para contribuir com melhorias, correções de bugs ou novas funcionalidades. Abra uma **issue** para discussões ou envie um **pull request**.
+
+## Licença
+
+Este projeto é licenciado sob a [MIT License](LICENSE).
+
