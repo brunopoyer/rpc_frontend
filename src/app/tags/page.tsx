@@ -3,32 +3,7 @@ import AddItem from "@/components/AddItem";
 import List from "@/components/List";
 import {ITable} from "../../../types/table";
 import {IFields} from "../../../types/fields";
-
-const tagColumns: ITable[] = [
-    {
-        key: "name",
-        label: "Nome"
-    },
-    {
-        key: "color",
-        label: "Cor"
-    }
-];
-
-const tagFields: IFields[] = [
-    {
-        label: "Nome",
-        name: "name",
-        type: "text",
-        required: true
-    },
-    {
-        label: "Cor",
-        name: "color",
-        type: "color",
-        required: true
-    }
-];
+import {tagColumns, tagFields} from "@/shared/fields";
 
 const Tags = async () => {
     const tags = await getAllTags();

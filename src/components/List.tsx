@@ -16,6 +16,12 @@ function isTag(item: ITag | ITask): item is ITag {
 }
 
 const List: React.FC<ListProps> = ({ itens, columns, type }) => {
+    const sortItens = itens.sort((a, b) => {
+        if (isTag(a)) {
+            return a.name.localeCompare(b.name);
+        }
+        return a.name.localeCompare(b.name);
+    });
     return (
         <div>
             <table className="table table-zebra">
@@ -30,7 +36,7 @@ const List: React.FC<ListProps> = ({ itens, columns, type }) => {
                 </tr>
                 </thead>
                 <tbody>
-                    {itens.map((item, index) => (
+                    {sortItens.map((item, index) => (
                         <Item key={item.id} item={item} columns={columns} type={type} />
                     ))}
                 </tbody>
